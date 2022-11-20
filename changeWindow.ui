@@ -14,39 +14,45 @@
    <string>Сопровождение конкурсов на соискание грантов — редактирование строк</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="8" column="2" colspan="2">
-    <widget class="QTextEdit" name="lineEdit_g8"/>
-   </item>
-   <item row="10" column="0">
-    <widget class="QLabel" name="label_15">
+   <item row="1" column="0" colspan="2">
+    <widget class="QLabel" name="label_2">
      <property name="text">
-      <string>Введите ученое звание g10</string>
+      <string>Выберите код конкурса </string>
      </property>
     </widget>
    </item>
-   <item row="9" column="0" colspan="2">
-    <widget class="QLabel" name="label_14">
+   <item row="1" column="3">
+    <widget class="QComboBox" name="comboBox_cod_kon_change"/>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="label">
      <property name="text">
-      <string>Введите должность руководителя g9</string>
+      <string>Введите код НИР g1</string>
      </property>
     </widget>
    </item>
-   <item row="10" column="3">
-    <widget class="QLineEdit" name="lineEdit_g10"/>
+   <item row="2" column="3">
+    <widget class="QLineEdit" name="lineEdit_g1"/>
    </item>
-   <item row="11" column="0" colspan="2">
-    <widget class="QLabel" name="label_16">
+   <item row="3" column="0" colspan="3">
+    <widget class="QLabel" name="label_4">
      <property name="text">
-      <string>Введите ученную степень g11</string>
+      <string>Примечание : используемые коды НИР</string>
      </property>
     </widget>
    </item>
-   <item row="12" column="1" colspan="2">
-    <widget class="QPushButton" name="pushButton_change_back">
+   <item row="3" column="3">
+    <widget class="QComboBox" name="comboBox_cod_nir_change"/>
+   </item>
+   <item row="4" column="0" colspan="2">
+    <widget class="QLabel" name="label_3">
      <property name="text">
-      <string>Вернуться назад</string>
+      <string>Выберете код ВУЗа и название</string>
      </property>
     </widget>
+   </item>
+   <item row="4" column="3">
+    <widget class="QComboBox" name="comboBox_cod_vuz_change"/>
    </item>
    <item row="5" column="0">
     <widget class="QLabel" name="label_5">
@@ -54,32 +60,6 @@
       <string>Ввдетие код по ГРНТИ g7</string>
      </property>
     </widget>
-   </item>
-   <item row="12" column="0">
-    <widget class="QPushButton" name="pushButton_change_2">
-     <property name="text">
-      <string>Редактировать</string>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="0" colspan="2">
-    <widget class="QLabel" name="label_13">
-     <property name="text">
-      <string>Введите руководителя НИР g8</string>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="3">
-    <widget class="QLineEdit" name="lineEdit_g9"/>
-   </item>
-   <item row="4" column="3">
-    <widget class="QComboBox" name="comboBox_cod_vuz_change"/>
-   </item>
-   <item row="6" column="3">
-    <widget class="QLineEdit" name="lineEdit_g5"/>
-   </item>
-   <item row="11" column="3">
-    <widget class="QLineEdit" name="lineEdit_g11"/>
    </item>
    <item row="5" column="3">
     <widget class="QLineEdit" name="lineEdit_g7">
@@ -95,48 +75,8 @@
      </property>
     </widget>
    </item>
-   <item row="7" column="2" colspan="2">
-    <widget class="QTextEdit" name="lineEdit_g6"/>
-   </item>
-   <item row="0" column="0" colspan="4">
-    <widget class="QTableView" name="tableView_change"/>
-   </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Введите код НИР g1</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="3">
-    <widget class="QLineEdit" name="lineEdit_g1"/>
-   </item>
-   <item row="2" column="0" colspan="3">
-    <widget class="QLabel" name="label_4">
-     <property name="text">
-      <string>Примечание : используемые коды НИР</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="3">
-    <widget class="QComboBox" name="comboBox_cod_nir_change"/>
-   </item>
-   <item row="3" column="0">
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string>Выберите код конкурса </string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="3">
-    <widget class="QComboBox" name="comboBox_cod_kon_change"/>
-   </item>
-   <item row="4" column="0" colspan="2">
-    <widget class="QLabel" name="label_3">
-     <property name="text">
-      <string>Выберете код ВУЗа и название</string>
-     </property>
-    </widget>
+   <item row="6" column="3">
+    <widget class="QLineEdit" name="lineEdit_g5"/>
    </item>
    <item row="7" column="0" colspan="2">
     <widget class="QLabel" name="label_12">
@@ -144,6 +84,66 @@
       <string>Введите наименование НИР g6</string>
      </property>
     </widget>
+   </item>
+   <item row="7" column="2" colspan="2">
+    <widget class="QTextEdit" name="lineEdit_g6"/>
+   </item>
+   <item row="8" column="0" colspan="2">
+    <widget class="QLabel" name="label_13">
+     <property name="text">
+      <string>Введите руководителя НИР g8</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="3">
+    <widget class="QLineEdit" name="lineEdit_g8"/>
+   </item>
+   <item row="9" column="0" colspan="2">
+    <widget class="QLabel" name="label_14">
+     <property name="text">
+      <string>Введите должность руководителя g9</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="3">
+    <widget class="QLineEdit" name="lineEdit_g9"/>
+   </item>
+   <item row="10" column="0">
+    <widget class="QLabel" name="label_15">
+     <property name="text">
+      <string>Введите ученое звание g10</string>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="3">
+    <widget class="QLineEdit" name="lineEdit_g10"/>
+   </item>
+   <item row="11" column="0" colspan="2">
+    <widget class="QLabel" name="label_16">
+     <property name="text">
+      <string>Введите ученную степень g11</string>
+     </property>
+    </widget>
+   </item>
+   <item row="11" column="3">
+    <widget class="QLineEdit" name="lineEdit_g11"/>
+   </item>
+   <item row="12" column="0">
+    <widget class="QPushButton" name="pushButton_change_2">
+     <property name="text">
+      <string>Редактировать</string>
+     </property>
+    </widget>
+   </item>
+   <item row="12" column="1" colspan="2">
+    <widget class="QPushButton" name="pushButton_change_back">
+     <property name="text">
+      <string>Вернуться назад</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0" colspan="4">
+    <widget class="QTableView" name="tableView_change"/>
    </item>
   </layout>
  </widget>

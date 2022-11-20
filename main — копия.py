@@ -1,4 +1,5 @@
 from PyQt6 import uic
+from PyQt6.QtCore import QItemSelection, QItemSelectionModel, QModelIndex
 from PyQt6.QtWidgets import QApplication
 from PyQt6.QtSql import QSqlDatabase, QSqlTableModel, QSqlQuery
 import sys, copy
@@ -10,8 +11,6 @@ import ast
 import os
 import shutil
 import docx
-import datetime
-from datetime import datetime
 # загрузка форм и окон из ui файлов
 MainForm, MainWindow = uic.loadUiType("MainWindow.ui")  # главное окно
 ProjViewForm, ProjViewWindow = uic.loadUiType("ProjViewWindow.ui")  # окно показа проектов
@@ -28,7 +27,6 @@ ChangeForm , ChangeWindow = uic.loadUiType("ChangeWindow.ui") # окно с ре
 AnalysisForm , AnalysisWindow = uic.loadUiType("AnalysisWindow.ui") # окно с редактированием строк
 AddOkForm , ADdOkWindow = uic.loadUiType("AddOk.ui") # окно с инф о добавлении строки
 FinForm , FinWindow = uic.loadUiType("FinWindow.ui") # окно с финансированием
-save_docForm , save_docWindow = uic.loadUiType("save_doc_ok.ui") # окно с сохранением документа
 
 
 # инициализация имени базы данных
@@ -1854,11 +1852,6 @@ def open_vuz_window():
 
 # сохраняем в таблицу по анализу вузов
 
-def open_save_doc(name_doc):
-    save_doc_form.label_add_doc.setText('Файл сохранен в документ: '+str(name_doc)+'.docx')
-    save_doc_window.show()
-
-
 def add_doc_analys(word_add_analys,filter_analys,name_doc):
     doc = docx.Document()
 
@@ -1887,15 +1880,10 @@ def add_doc_analys(word_add_analys,filter_analys,name_doc):
         row[2].text = plan_v
         row[3].text= kol_con
     # добавление в конце надписи фильтр
-
-    date_object=datetime.today()
-    doc.add_paragraph('Создан: '+str(date_object)[:-7])
-
     doc.add_paragraph(str(filter_analys))
 
     # Now save the document to a location
     doc.save(f'{name_doc}.docx')
-    open_save_doc(name_doc)
 
 
 
@@ -2096,54 +2084,36 @@ def open_analysis_subj_window():
     analysis_form.tableView.setModel(table_model)
     analysis_form.tableView.resizeColumnsToContents()
 
-
-def calc_fin_sum():
-    # расчёт суммы по процентам
-
-    query = QSqlQuery(f"""SELECT ifnull(SUM(proj.g5), 0) AS sum_plan, ifnull(SUM(proj.g2), 0) AS sum_fact
-                          FROM gr_konk AS konk
-                          LEFT JOIN gr_proj AS proj ON proj.codkon = konk.codkon
-                          LEFT JOIN vuz ON proj.codvuz = vuz.codvuz""")
-
-    while query.next():
-        sum_plan = query.value(0)
-        sum_fact = query.value(1)
-
-    if fin_form.percentfin.text()!='':
-        fin_percent = round(ast.literal_eval(fin_form.percentfin.text()) / 100,3) if isinstance(ast.literal_eval(fin_form.percentfin.text()), float) \
-            else ast.literal_eval(fin_form.percentfin.text()) / 100
-        fin_form.percentfin.setText(str(round(fin_percent*100,1)))
-    else:
-        fin_percent = 0
-    if fin_percent > (sum_plan-sum_fact)/sum_plan:
-        fin_percent = round((sum_plan-sum_fact)/sum_plan,3)
-        fin_form.percentfin.setText(str(fin_percent * 100))
-    fin_sum = fin_percent * sum_plan
-    fin_form.sumfin.setText(str(int(fin_sum)))
-
-
-def calc_fin_percent():
-    # расчёт процентов по сумме
-
-    query = QSqlQuery(f"""SELECT ifnull(SUM(proj.g5), 0) AS sum_plan, ifnull(SUM(proj.g2), 0) AS sum_fact
-                          FROM gr_konk AS konk
-                          LEFT JOIN gr_proj AS proj ON proj.codkon = konk.codkon
-                          LEFT JOIN vuz ON proj.codvuz = vuz.codvuz""")
-
-    while query.next():
-        sum_plan = query.value(0)
-        sum_fact = query.value(1)
-
-    fin_sum = ast.literal_eval(fin_form.sumfin.text()) if fin_form.sumfin.text()!='' else 0
-    if fin_sum > sum_plan - sum_fact:
-        fin_sum = sum_plan - sum_fact
-        fin_form.sumfin.setText(str(fin_sum))
-    fin_percent = round(fin_sum / sum_plan * 100,1)
-    fin_form.percentfin.setText(str(fin_percent))
-
-
 def open_fin_window():
     # открывает окно финансирования
+
+    # надо сделать ограничения на проценты после имеющегося финансирования
+    # надо сделать ограничения на сумму после имеющегося финансирования
+
+    def calc_fin_sum():
+        # расчёт суммы по процентам
+        if fin_form.percentfin.text()!='':
+            fin_percent = round(ast.literal_eval(fin_form.percentfin.text()) / 100,3) if isinstance(ast.literal_eval(fin_form.percentfin.text()), float) \
+                else ast.literal_eval(fin_form.percentfin.text()) / 100
+            fin_form.percentfin.setText(str(round(fin_percent*100,1)))
+        else:
+            fin_percent = 0
+        if fin_percent > (sum_plan-sum_fact)/sum_plan:
+            fin_percent = round((sum_plan-sum_fact)/sum_plan,3)
+            fin_form.percentfin.setText(str(fin_percent * 100))
+        fin_sum = fin_percent * sum_plan
+        fin_form.sumfin.setText(str(fin_sum))
+
+    def calc_fin_percent():
+        # расчёт процентов по сумме
+        fin_sum = ast.literal_eval(fin_form.sumfin.text()) if fin_form.sumfin.text()!='' else 0
+        if fin_sum > sum_plan - sum_fact:
+            fin_sum = sum_plan - sum_fact
+            fin_form.sumfin.setText(str(fin_sum))
+        fin_percent = round(fin_sum / sum_plan * 100,1)
+        fin_form.percentfin.setText(str(fin_percent))
+
+    global query_sql_filter_save
 
     window_list[check_active_window()].close()
     fin_window.showMaximized()
@@ -2153,25 +2123,34 @@ def open_fin_window():
     except:
         pass
 
+    cond_filter = 'WHERE' + ' ' + ' AND '.join(f"{field} == \"{value}\"" for field, value in zip(query_sql_filter_temp.keys(), query_sql_filter_temp.values()))
+
     query = QSqlQuery(f"""SELECT ifnull(SUM(proj.g5), 0) AS sum_plan, ifnull(SUM(proj.g2), 0) AS sum_fact
                           FROM gr_konk AS konk
                           LEFT JOIN gr_proj AS proj ON proj.codkon = konk.codkon
-                          LEFT JOIN vuz ON proj.codvuz = vuz.codvuz""")
+                          LEFT JOIN vuz ON proj.codvuz = vuz.codvuz
+    					  {cond_filter if query_sql_filter_save != {} else ""}""")
 
     while query.next():
         sum_plan = query.value(0)
         sum_fact = query.value(1)
 
-    fin_form.planlabel.setText(str(sum_plan))
-    fin_form.factlabel.setText(str(sum_fact))
-    fin_form.percentfactlabel.setText(str(round(sum_fact / sum_plan, 3)*100))
+    filter_label = ', '.join(f"{translate_dict_filter[field]}: {value}" for field, value in zip(query_sql_filter_temp.keys(), query_sql_filter_temp.values()))
+    fin_form.filterlabel.setText(filter_label if filter_label != '' else "Отсутствуют")
+    fin_form.planlabel.setText(str(sum_plan) + ' ' + 'руб.')
+    fin_form.factlabel.setText(str(sum_fact) + ' ' + 'руб.')
+
+    fin_form.sumfin.editingFinished.connect(calc_fin_percent)
+    fin_form.percentfin.editingFinished.connect(calc_fin_sum)
 
     fin_form.push_button_save_fin.setEnabled(False)
     fin_form.push_button_cancel_fin.setEnabled(False)
     fin_form.push_button_print_fin.setEnabled(False)
 
 
-def doc_add_fin(word_add_analys,number_kvartala,name_doc):
+
+
+def doc_add_fin(word_add_analys,number_kvartala,name_doc, filter):
     doc = docx.Document()
 
     # Add a Title to the document
@@ -2195,31 +2174,35 @@ def doc_add_fin(word_add_analys,number_kvartala,name_doc):
         row[0].text = name
         row[1].text = kol_nir
 
-    date_object = datetime.today()
-    doc.add_paragraph('Создан: ' + str(date_object)[:-7])
+    doc.add_paragraph(str(filter))
+    # добавление в конце надписи фильтр
 
 
     # Now save the document to a location
     doc.save(f'{name_doc}.docx')
-    open_save_doc(name_doc)
 
 def calc_fin():
     # расчёт финансирования
 
+    global query_sql_filter_save
+
     table_model = QSqlTableModel()
+
+    cond_filter = 'WHERE' + ' ' + ' AND '.join(f"{field} == \"{value}\"" for field, value in zip(query_sql_filter_save.keys(), query_sql_filter_save.values()))
 
     if fin_form.percentfin.text()!='' and fin_form.sumfin.text() != '' and fin_form.quartcombo.currentText() != '':
 
         quarter_dict = {'I квартал': '1', 'II квартал': '2', 'III квартал': '3', 'IV квартал': '4'}
         quarter = quarter_dict[fin_form.quartcombo.currentText()]
 
-        fin_percent = str(round(ast.literal_eval(fin_form.percentfin.text()) / 100, 3) if isinstance(ast.literal_eval(fin_form.percentfin.text()), float) \
+        fin_percent = str(round(ast.literal_eval(fin_form.percentfin.text()) / 100, 2) if isinstance(ast.literal_eval(fin_form.percentfin.text()), float) \
             else ast.literal_eval(fin_form.percentfin.text()) / 100)
 
         query = QSqlQuery(f"""WITH temp_cte AS(
                                 SELECT vuz.z2 AS z2_cte,
-                                CAST(ifnull(SUM(proj.g5), 0) AS INTEGER) AS g2{quarter}_cte
+                                ifnull(SUM(proj.g5) * {fin_percent}, 0) AS g2{quarter}_cte
                                 FROM vuz LEFT JOIN gr_proj AS proj ON vuz.codvuz = proj.codvuz
+                                {cond_filter if query_sql_filter_save != {} else ""}
                                 GROUP BY proj.codvuz)
                              SELECT z2_cte AS "Наименование вуза",
                                     g2{quarter}_cte AS "Финансирование за {fin_form.quartcombo.currentText()}"
@@ -2231,8 +2214,9 @@ def calc_fin():
                              SELECT 'Итого',
                                     ifnull(SUM(g2{quarter}_cte), 0)
                              FROM temp_cte""")
+        filter='Условия фильтрации: '+str(fin_form.filterlabel.text())
 
-        name_doc = f'Ведомость по финансированию ВУЗов в {fin_form.quartcombo.currentText()}е'
+        name_doc = 'Анализ по финансированию'
         number_kvartala=fin_form.quartcombo.currentText()
         word_add_analys = []
         spis = []
@@ -2242,7 +2226,7 @@ def calc_fin():
             word_add_analys.append(spis)
             spis = []
         print(word_add_analys)
-        fin_form.push_button_print_fin.clicked.connect(partial(doc_add_fin,word_add_analys,number_kvartala,name_doc))
+        fin_form.push_button_print_fin.clicked.connect(partial(doc_add_fin,word_add_analys,number_kvartala,name_doc,filter))
         table_model.setQuery(query)
 
         while table_model.canFetchMore():
@@ -2276,18 +2260,23 @@ def save_fin():
     cur.close()
     conn.close()
 
+    global query_sql_filter_save
+
+    cond_filter = 'WHERE' + ' ' + ' AND '.join(
+        f"{field} == \"{value}\"" for field, value in zip(query_sql_filter_save.keys(), query_sql_filter_save.values()))
+
     quarter_dict = {'I квартал': '1', 'II квартал': '2', 'III квартал': '3', 'IV квартал': '4'}
     quarter = quarter_dict[fin_form.quartcombo.currentText()]
 
-    fin_percent = str(round(ast.literal_eval(fin_form.percentfin.text()) / 100, 3) if isinstance(
+    fin_percent = str(round(ast.literal_eval(fin_form.percentfin.text()) / 100, 2) if isinstance(
         ast.literal_eval(fin_form.percentfin.text()), float) \
                           else ast.literal_eval(fin_form.percentfin.text()) / 100)
 
     query = QSqlQuery(f"""SELECT proj.g1 AS g1_cte,
                                  proj.codkon AS codkon_cte,
                                  proj.g5 * {fin_percent} AS g2{quarter}_cte
-                          FROM vuz 
-                          LEFT JOIN gr_proj AS proj ON vuz.codvuz = proj.codvuz""")
+                          FROM vuz LEFT JOIN gr_proj AS proj ON vuz.codvuz = proj.codvuz
+                          {cond_filter if query_sql_filter_save != {} else ""}""")
 
     list_g1, list_codkon, list_g_quarter = list(), list(), list()
 
@@ -2317,17 +2306,16 @@ def save_fin():
     cur.close()
     conn.close()
 
-    query = QSqlQuery(f"""SELECT ifnull(SUM(proj.g2), 0) AS sum_fact, ifnull(SUM(proj.g5), 0) AS sum_plan
+    query = QSqlQuery(f"""SELECT ifnull(SUM(proj.g2), 0) AS sum_fact
                           FROM gr_konk AS konk
                           LEFT JOIN gr_proj AS proj ON proj.codkon = konk.codkon
-                          LEFT JOIN vuz ON proj.codvuz = vuz.codvuz""")
+                          LEFT JOIN vuz ON proj.codvuz = vuz.codvuz
+    					  {cond_filter if query_sql_filter_save != {} else ""}""")
 
     while query.next():
         sum_fact = query.value(0)
-        sum_plan = query.value(1)
 
-    fin_form.factlabel.setText(str(sum_fact))
-    fin_form.percentfactlabel.setText(str(round(sum_fact / sum_plan, 3)*100))
+    fin_form.factlabel.setText(str(sum_fact) + ' ' + 'руб.')
 
     fin_form.push_button_print_fin.setEnabled(True)
 
@@ -2369,23 +2357,27 @@ def cancel_fin():
 
         fin_form.tableView.model().clear()
 
-        query = QSqlQuery(f"""SELECT ifnull(SUM(proj.g2), 0) AS sum_fact, ifnull(SUM(proj.g5), 0) AS sum_plan
+        query = QSqlQuery(f"""SELECT ifnull(SUM(proj.g2), 0) AS sum_fact
                               FROM gr_konk AS konk
                               LEFT JOIN gr_proj AS proj ON proj.codkon = konk.codkon
-                              LEFT JOIN vuz ON proj.codvuz = vuz.codvuz""")
+                              LEFT JOIN vuz ON proj.codvuz = vuz.codvuz
+        					  {cond_filter if query_sql_filter_save != {} else ""}""")
 
         while query.next():
             sum_fact = query.value(0)
-            sum_plan = query.value(1)
 
-        fin_form.factlabel.setText(str(sum_fact))
-        fin_form.percentfactlabel.setText(str(round(sum_fact / sum_plan, 3) * 100))
+        fin_form.factlabel.setText(str(sum_fact) + ' ' + 'руб.')
 
         fin_form.push_button_save_fin.setEnabled(False)
         fin_form.push_button_cancel_fin.setEnabled(False)
         fin_form.push_button_print_fin.setEnabled(False)
 
         calc_konk()
+
+
+def print_fin():
+    # выпуск распроряжения по финансированию
+    pass
 
 
 def open_help_view_window():
@@ -2416,8 +2408,7 @@ def close_prog():
     cur.close()
     conn.close()
 
-    if check_active_window() is not None:
-        window_list[check_active_window()].close()
+    window_list[check_active_window()].close()
 
 
 def connect_db():
@@ -2546,6 +2537,7 @@ analysis_form=AnalysisForm()
 analysis_form.setupUi(analysis_window)
 
 
+
 # инициализация окна финансирования
 fin_window=FinWindow()
 fin_form=FinForm()
@@ -2553,13 +2545,7 @@ fin_form.setupUi(fin_window)
 fin_form.push_button_calc_fin.clicked.connect(calc_fin)
 fin_form.push_button_save_fin.clicked.connect(save_fin)
 fin_form.push_button_cancel_fin.clicked.connect(cancel_fin)
-fin_form.sumfin.editingFinished.connect(calc_fin_percent)
-fin_form.percentfin.editingFinished.connect(calc_fin_sum)
-
-# инициализация окна с сохранением документов
-save_doc_form=save_docForm()
-save_doc_window=save_docWindow()
-save_doc_form.setupUi(save_doc_window)
+fin_form.push_button_print_fin.clicked.connect(print_fin)
 
 
 # список всех окон приложения

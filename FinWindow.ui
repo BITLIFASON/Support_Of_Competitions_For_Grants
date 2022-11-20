@@ -15,45 +15,76 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="1" column="1" colspan="7">
-     <widget class="QLabel" name="filterlabel">
+    <item row="7" column="0">
+     <widget class="QLabel" name="label_6">
+      <property name="text">
+       <string>Квартал:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>Плановый объём (руб):</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <widget class="QLabel" name="percentfactlabel">
       <property name="text">
        <string>TextLabel</string>
       </property>
      </widget>
     </item>
-    <item row="0" column="0" colspan="8">
-     <widget class="QTableView" name="tableView">
-      <attribute name="horizontalHeaderStretchLastSection">
-       <bool>true</bool>
-      </attribute>
+    <item row="6" column="0" colspan="8">
+     <widget class="QLabel" name="label_5">
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Выдача распоряжения:</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+      </property>
      </widget>
     </item>
-    <item row="9" column="6" colspan="2">
-     <spacer name="horizontalSpacer_5">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
+    <item row="4" column="0">
+     <widget class="QLabel" name="label_3">
+      <property name="text">
+       <string>Процент фактического объёма от планового (%):</string>
       </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
+     </widget>
     </item>
-    <item row="8" column="6" colspan="2">
-     <spacer name="horizontalSpacer_4">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
+    <item row="8" column="0">
+     <widget class="QLabel" name="label_7">
+      <property name="text">
+       <string>Сумма (руб):</string>
       </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
+     </widget>
+    </item>
+    <item row="9" column="0">
+     <widget class="QLabel" name="label_8">
+      <property name="text">
+       <string>Процент от планового объёма (%):</string>
       </property>
-     </spacer>
+     </widget>
+    </item>
+    <item row="15" column="0" colspan="8">
+     <widget class="QPushButton" name="push_button_print_fin">
+      <property name="text">
+       <string>Сформировать документ</string>
+      </property>
+     </widget>
+    </item>
+    <item row="12" column="0" colspan="8">
+     <widget class="QPushButton" name="push_button_calc_fin">
+      <property name="text">
+       <string>Рассчитать</string>
+      </property>
+     </widget>
     </item>
     <item row="7" column="1" colspan="2">
      <widget class="QComboBox" name="quartcombo">
@@ -90,122 +121,10 @@
       </item>
      </widget>
     </item>
-    <item row="9" column="1" colspan="5">
-     <widget class="QLineEdit" name="percentfin">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-     </widget>
-    </item>
-    <item row="13" column="0" colspan="8">
-     <widget class="QPushButton" name="push_button_save_fin">
-      <property name="text">
-       <string>Сохранить</string>
-      </property>
-     </widget>
-    </item>
-    <item row="9" column="0">
-     <widget class="QLabel" name="label_8">
-      <property name="text">
-       <string>Процент от плана:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="0">
-     <widget class="QLabel" name="label_5">
-      <property name="text">
-       <string>Выдача распоряжения:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="8" column="1" colspan="5">
-     <widget class="QLineEdit" name="sumfin">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignJustify|Qt::AlignVCenter</set>
-      </property>
-     </widget>
-    </item>
-    <item row="7" column="0">
-     <widget class="QLabel" name="label_6">
-      <property name="text">
-       <string>Квартал:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="0">
-     <widget class="QLabel" name="label_2">
-      <property name="text">
-       <string>Фактический объём:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="label">
-      <property name="text">
-       <string>Плановый объём:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="6" colspan="2">
-     <spacer name="horizontalSpacer_2">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-      <property name="sizeType">
-       <enum>QSizePolicy::Preferred</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="1" column="0">
-     <widget class="QLabel" name="label_3">
-      <property name="text">
-       <string>Условия фильтрации:</string>
-      </property>
-     </widget>
-    </item>
     <item row="14" column="0" colspan="8">
      <widget class="QPushButton" name="push_button_cancel_fin">
       <property name="text">
        <string>Отмена</string>
-      </property>
-     </widget>
-    </item>
-    <item row="15" column="0" colspan="8">
-     <widget class="QPushButton" name="push_button_print_fin">
-      <property name="text">
-       <string>Сформировать документ</string>
-      </property>
-     </widget>
-    </item>
-    <item row="8" column="0">
-     <widget class="QLabel" name="label_7">
-      <property name="text">
-       <string>Сумма:</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="1" colspan="5">
-     <widget class="QLabel" name="planlabel">
-      <property name="text">
-       <string>TextLabel</string>
-      </property>
-      <property name="scaledContents">
-       <bool>true</bool>
       </property>
      </widget>
     </item>
@@ -222,8 +141,35 @@
       </property>
      </spacer>
     </item>
-    <item row="2" column="6" colspan="2">
-     <spacer name="horizontalSpacer">
+    <item row="0" column="0" colspan="8">
+     <widget class="QTableView" name="tableView"/>
+    </item>
+    <item row="13" column="0" colspan="8">
+     <widget class="QPushButton" name="push_button_save_fin">
+      <property name="text">
+       <string>Сохранить</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>Фактический объём (руб):</string>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="1">
+     <widget class="QLineEdit" name="percentfin">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="2" colspan="6">
+     <spacer name="horizontalSpacer_5">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
@@ -235,7 +181,43 @@
       </property>
      </spacer>
     </item>
-    <item row="4" column="1" colspan="5">
+    <item row="8" column="1" colspan="2">
+     <widget class="QLineEdit" name="sumfin">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignJustify|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="3" colspan="5">
+     <spacer name="horizontalSpacer_4">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="1" column="1" colspan="3">
+     <widget class="QLabel" name="planlabel">
+      <property name="text">
+       <string>TextLabel</string>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1" colspan="3">
      <widget class="QLabel" name="factlabel">
       <property name="frameShape">
        <enum>QFrame::NoFrame</enum>
@@ -248,12 +230,53 @@
       </property>
      </widget>
     </item>
-    <item row="12" column="0" colspan="8">
-     <widget class="QPushButton" name="push_button_calc_fin">
-      <property name="text">
-       <string>Рассчитать</string>
+    <item row="1" column="4" colspan="4">
+     <spacer name="horizontalSpacer">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
       </property>
-     </widget>
+      <property name="sizeType">
+       <enum>QSizePolicy::Preferred</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="3" column="4" colspan="4">
+     <spacer name="horizontalSpacer_6">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeType">
+       <enum>QSizePolicy::Preferred</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="4" column="2" colspan="6">
+     <spacer name="horizontalSpacer_2">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="sizeType">
+       <enum>QSizePolicy::Preferred</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
+      </property>
+     </spacer>
     </item>
    </layout>
   </widget>
