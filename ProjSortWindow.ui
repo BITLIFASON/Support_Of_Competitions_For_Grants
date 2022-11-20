@@ -14,24 +14,21 @@
    <bool>false</bool>
   </property>
   <property name="windowTitle">
-   <string>Сортировка проектов</string>
+   <string>Сопровождение конкурсов на соискание грантов — сортировка проектов</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0" colspan="3">
-     <widget class="QTableView" name="tableView"/>
-    </item>
     <item row="1" column="0">
      <widget class="QLabel" name="label">
       <property name="text">
-       <string>g1</string>
+       <string>Код НИР</string>
       </property>
      </widget>
     </item>
     <item row="1" column="1">
      <widget class="QLabel" name="label_2">
       <property name="text">
-       <string>codkon</string>
+       <string>Код конкурса</string>
       </property>
      </widget>
     </item>
@@ -64,11 +61,21 @@
      </widget>
     </item>
     <item row="2" column="2">
-     <widget class="QPushButton" name="push_button_sort">
+     <widget class="QPushButton" name="push_button_sort_save">
       <property name="text">
-       <string>Сортировать</string>
+       <string>Установить сортировку</string>
       </property>
      </widget>
+    </item>
+    <item row="2" column="3">
+     <widget class="QPushButton" name="push_button_sort_reset">
+      <property name="text">
+       <string>Сбросить сортировку</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0" colspan="4">
+     <widget class="QTableView" name="tableView"/>
     </item>
    </layout>
   </widget>
@@ -93,6 +100,9 @@
     <property name="title">
      <string>Анализ</string>
     </property>
+    <addaction name="panel_analysis_vuz"/>
+    <addaction name="panel_analysis_konk"/>
+    <addaction name="panel_analysis_subj"/>
    </widget>
    <widget class="QMenu" name="panel_finance">
     <property name="title">
@@ -154,6 +164,21 @@
   <action name="panel_exit_action">
    <property name="text">
     <string>Выход</string>
+   </property>
+  </action>
+  <action name="panel_analysis_vuz">
+   <property name="text">
+    <string>по вузам</string>
+   </property>
+  </action>
+  <action name="panel_analysis_konk">
+   <property name="text">
+    <string>по конкурсам</string>
+   </property>
+  </action>
+  <action name="panel_analysis_subj">
+   <property name="text">
+    <string>по субъектам РФ</string>
    </property>
   </action>
  </widget>

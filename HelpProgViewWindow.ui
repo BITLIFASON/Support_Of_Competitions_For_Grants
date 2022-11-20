@@ -10,11 +10,8 @@
     <height>800</height>
    </rect>
   </property>
-  <property name="mouseTracking">
-   <bool>false</bool>
-  </property>
   <property name="windowTitle">
-   <string>Помощь</string>
+   <string>Сопровождение конкурсов на соискание грантов — о программе</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
@@ -48,6 +45,9 @@
     <property name="title">
      <string>Анализ</string>
     </property>
+    <addaction name="panel_analysis_vuz"/>
+    <addaction name="panel_analysis_konk"/>
+    <addaction name="panel_analysis_subj"/>
    </widget>
    <widget class="QMenu" name="panel_finance">
     <property name="title">
@@ -109,6 +109,21 @@
   <action name="panel_exit_action">
    <property name="text">
     <string>Выход</string>
+   </property>
+  </action>
+  <action name="panel_analysis_vuz">
+   <property name="text">
+    <string>по вузам</string>
+   </property>
+  </action>
+  <action name="panel_analysis_konk">
+   <property name="text">
+    <string>по конкурсам</string>
+   </property>
+  </action>
+  <action name="panel_analysis_subj">
+   <property name="text">
+    <string>по субъектам РФ</string>
    </property>
   </action>
  </widget>

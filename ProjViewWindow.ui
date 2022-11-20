@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>822</width>
-    <height>612</height>
+    <width>1200</width>
+    <height>800</height>
    </rect>
   </property>
   <property name="mouseTracking">
    <bool>false</bool>
   </property>
   <property name="windowTitle">
-   <string>Проекты</string>
+   <string>Сопровождение конкурсов на соискание грантов — проекты</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
@@ -61,15 +61,6 @@
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
-      <property name="focusPolicy">
-       <enum>Qt::StrongFocus</enum>
-      </property>
-      <property name="contextMenuPolicy">
-       <enum>Qt::DefaultContextMenu</enum>
-      </property>
-      <property name="layoutDirection">
-       <enum>Qt::LeftToRight</enum>
-      </property>
       <property name="selectionMode">
        <enum>QAbstractItemView::SingleSelection</enum>
       </property>
@@ -88,8 +79,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>822</width>
-     <height>26</height>
+     <width>1200</width>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="panel_data">
@@ -104,6 +95,9 @@
     <property name="title">
      <string>Анализ</string>
     </property>
+    <addaction name="panel_analysis_vuz"/>
+    <addaction name="panel_analysis_konk"/>
+    <addaction name="panel_analysis_subj"/>
    </widget>
    <widget class="QMenu" name="panel_finance">
     <property name="title">
@@ -165,6 +159,21 @@
   <action name="panel_exit_action">
    <property name="text">
     <string>Выход</string>
+   </property>
+  </action>
+  <action name="panel_analysis_vuz">
+   <property name="text">
+    <string>по вузам</string>
+   </property>
+  </action>
+  <action name="panel_analysis_konk">
+   <property name="text">
+    <string>по конкурсам</string>
+   </property>
+  </action>
+  <action name="panel_analysis_subj">
+   <property name="text">
+    <string>по субъектам РФ</string>
    </property>
   </action>
  </widget>

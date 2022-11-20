@@ -7,22 +7,25 @@
     <x>0</x>
     <y>0</y>
     <width>1200</width>
-    <height>800</height>
+    <height>795</height>
    </rect>
   </property>
   <property name="mouseTracking">
    <bool>false</bool>
   </property>
   <property name="windowTitle">
-   <string>Конкурсы</string>
+   <string>Сопровождение конкурсов на соискание грантов — конкурсы</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
+    <item row="0" column="0" colspan="2">
      <widget class="QTableView" name="tableView">
       <property name="selectionBehavior">
        <enum>QAbstractItemView::SelectItems</enum>
       </property>
+      <attribute name="horizontalHeaderStretchLastSection">
+       <bool>true</bool>
+      </attribute>
      </widget>
     </item>
    </layout>
@@ -48,6 +51,9 @@
     <property name="title">
      <string>Анализ</string>
     </property>
+    <addaction name="panel_analysis_vuz"/>
+    <addaction name="panel_analysis_konk"/>
+    <addaction name="panel_analysis_subj"/>
    </widget>
    <widget class="QMenu" name="panel_finance">
     <property name="title">
@@ -109,6 +115,21 @@
   <action name="panel_exit_action">
    <property name="text">
     <string>Выход</string>
+   </property>
+  </action>
+  <action name="panel_analysis_vuz">
+   <property name="text">
+    <string>по вузам</string>
+   </property>
+  </action>
+  <action name="panel_analysis_konk">
+   <property name="text">
+    <string>по конкурсам</string>
+   </property>
+  </action>
+  <action name="panel_analysis_subj">
+   <property name="text">
+    <string>по субъектам РФ</string>
    </property>
   </action>
  </widget>
