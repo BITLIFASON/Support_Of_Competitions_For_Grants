@@ -1,2 +1,0 @@
-read_data_add_row используется в add_row
-read_data_add_row1 используется в change

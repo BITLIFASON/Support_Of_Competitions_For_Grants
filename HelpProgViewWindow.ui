@@ -53,6 +53,7 @@
     <property name="title">
      <string>Финансирование</string>
     </property>
+    <addaction name="panel_finance_action"/>
    </widget>
    <widget class="QMenu" name="panel_help">
     <property name="mouseTracking">
@@ -124,6 +125,11 @@
   <action name="panel_analysis_subj">
    <property name="text">
     <string>по субъектам РФ</string>
+   </property>
+  </action>
+  <action name="panel_finance_action">
+   <property name="text">
+    <string>Финансирование</string>
    </property>
   </action>
  </widget>
