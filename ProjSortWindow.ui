@@ -14,14 +14,59 @@
    <bool>false</bool>
   </property>
   <property name="windowTitle">
-   <string>Главное окно</string>
+   <string>Сортировка проектов</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
+    <item row="0" column="0" colspan="3">
+     <widget class="QTableView" name="tableView"/>
+    </item>
+    <item row="1" column="0">
      <widget class="QLabel" name="label">
       <property name="text">
-       <string/>
+       <string>g1</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>codkon</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QComboBox" name="combo_box_order_g1">
+      <item>
+       <property name="text">
+        <string>По возрастанию</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>По убыванию</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QComboBox" name="combo_box_order_codkon">
+      <item>
+       <property name="text">
+        <string>По возрастанию</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>По убыванию</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="2" column="2">
+     <widget class="QPushButton" name="push_button_sort">
+      <property name="text">
+       <string>Сортировать</string>
       </property>
      </widget>
     </item>

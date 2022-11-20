@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>HelpWindow</class>
+ <widget class="QMainWindow" name="HelpWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1200</width>
+    <height>800</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="mouseTracking">
+   <bool>false</bool>
+  </property>
+  <property name="windowTitle">
+   <string>Фильтрация проектов</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0" colspan="5">
+     <widget class="QTableView" name="tableView">
+      <property name="selectionMode">
+       <enum>QAbstractItemView::SingleSelection</enum>
+      </property>
+      <property name="selectionBehavior">
+       <enum>QAbstractItemView::SelectRows</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label_codkon">
+      <property name="text">
+       <string>Код Конкурса</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QLabel" name="label_region">
+      <property name="text">
+       <string>Федеральный округ</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="2">
+     <widget class="QLabel" name="label_oblname">
+      <property name="text">
+       <string>Субъект РФ</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="3">
+     <widget class="QLabel" name="label_city">
+      <property name="text">
+       <string>Город</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="4">
+     <widget class="QLabel" name="label_z2">
+      <property name="text">
+       <string>Ведущая организация</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QComboBox" name="combo_box_filter_codkon">
+      <item>
+       <property name="text">
+        <string>Нет</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QComboBox" name="combo_box_filter_region">
+      <item>
+       <property name="text">
+        <string>Нет</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="2" column="2">
+     <widget class="QComboBox" name="combo_box_filter_oblname">
+      <item>
+       <property name="text">
+        <string>Нет</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="2" column="3">
+     <widget class="QComboBox" name="combo_box_filter_city">
+      <item>
+       <property name="text">
+        <string>Нет</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="2" column="4">
+     <widget class="QComboBox" name="combo_box_filter_z2">
+      <item>
+       <property name="text">
+        <string>Нет</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QPushButton" name="push_button_set_codkon">
+      <property name="text">
+       <string>Установить</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QPushButton" name="push_button_set_region">
+      <property name="text">
+       <string>Установить</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="2">
+     <widget class="QPushButton" name="push_button_set_oblname">
+      <property name="text">
+       <string>Установить</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="3">
+     <widget class="QPushButton" name="push_button_set_city">
+      <property name="text">
+       <string>Установить</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="4">
+     <widget class="QPushButton" name="push_button_set_z2">
+      <property name="text">
+       <string>Установить</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0" colspan="2">
+     <widget class="QPushButton" name="push_button_filter_reset">
+      <property name="text">
+       <string>Сбросить фильтр</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="2">
+     <widget class="QPushButton" name="push_button_filter_save">
+      <property name="text">
+       <string>Сохранить фильтр</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="3" colspan="2">
+     <widget class="QPushButton" name="push_button_filter_check">
+      <property name="text">
+       <string>Проверка фильтра</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1200</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="panel_data">
+    <property name="title">
+     <string>Данные</string>
+    </property>
+    <addaction name="panel_data_proj"/>
+    <addaction name="panel_data_konk"/>
+    <addaction name="panel_data_vuz"/>
+   </widget>
+   <widget class="QMenu" name="panel_analysis">
+    <property name="title">
+     <string>Анализ</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="panel_finance">
+    <property name="title">
+     <string>Финансирование</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="panel_help">
+    <property name="mouseTracking">
+     <bool>true</bool>
+    </property>
+    <property name="title">
+     <string>Справка</string>
+    </property>
+    <addaction name="panel_help_view"/>
+    <addaction name="separator"/>
+    <addaction name="panel_help_prog"/>
+   </widget>
+   <widget class="QMenu" name="panel_exit">
+    <property name="title">
+     <string>Выход</string>
+    </property>
+    <addaction name="panel_exit_action"/>
+   </widget>
+   <addaction name="panel_data"/>
+   <addaction name="panel_analysis"/>
+   <addaction name="panel_finance"/>
+   <addaction name="panel_help"/>
+   <addaction name="panel_exit"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="panel_data_proj">
+   <property name="text">
+    <string>Проекты</string>
+   </property>
+  </action>
+  <action name="panel_data_konk">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Конкурсы</string>
+   </property>
+  </action>
+  <action name="panel_data_vuz">
+   <property name="text">
+    <string>Вузы</string>
+   </property>
+  </action>
+  <action name="panel_help_view">
+   <property name="text">
+    <string>Просмотреть справку</string>
+   </property>
+  </action>
+  <action name="panel_help_prog">
+   <property name="text">
+    <string>О программе</string>
+   </property>
+  </action>
+  <action name="panel_exit_action">
+   <property name="text">
+    <string>Выход</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

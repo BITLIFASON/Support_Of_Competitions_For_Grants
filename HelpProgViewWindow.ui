@@ -14,14 +14,14 @@
    <bool>false</bool>
   </property>
   <property name="windowTitle">
-   <string>Главное окно</string>
+   <string>Помощь</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
      <widget class="QLabel" name="label">
       <property name="text">
-       <string/>
+       <string>Описание справки по программе</string>
       </property>
      </widget>
     </item>
