@@ -82,10 +82,10 @@ def open_proj_window():
                                  proj.g5 AS "Плановый объем",
                                  proj.g6 AS "Наименование НИР",
                                  proj.g2 AS "Фактический объем гранта",
-                                 proj.g21 as"Поквартальное финансирование",
-                                 proj.g22 as"Поквартальное финансирование",
-                                 proj.g23 as"Поквартальное финансирование",
-                                 proj.g24 as"Поквартальное финансирование",
+                                 proj.g21 as"Финансирование в 1 квартале",
+                                 proj.g22 as"Финансирование во 2 квартале",
+                                 proj.g23 as"Финансирование в 3 квартале",
+                                 proj.g24 as"Финансирование в 4 квартале",
                                  proj.g9 as "Должность руководителя",
                                  proj.g10 as"Учёное звание руководителя",
                                  proj.g11 as"Учёная степень руководителя"
@@ -108,6 +108,8 @@ def open_proj_window():
 def read_data_add_row():
 
     global query_sql_filter_save
+
+    cond_filter = 'WHERE' + ' ' + ' AND '.join(f"{field} == \"{value}\"" for field, value in zip(query_sql_filter_temp.keys(), query_sql_filter_temp.values()))
 
     # Чтение с лейблов и боксов
     table_model = QSqlTableModel()
@@ -268,10 +270,10 @@ def read_data_add_row():
                                                  proj.g5 AS "Плановый объем",
                                                  proj.g6 AS "Наименование НИР",
                                                  proj.g2 AS "Фактический объем гранта",
-                                                 proj.g21 as"Поквартальное финансирование",
-                                                 proj.g22 as"Поквартальное финансирование",
-                                                 proj.g23 as"Поквартальное финансирование",
-                                                 proj.g24 as"Поквартальное финансирование",
+                                                 proj.g21 as"Финансирование в 1 квартале",
+                                                 proj.g22 as"Финансирование во 2 квартале",
+                                                 proj.g23 as"Финансирование в 3 квартале",
+                                                 proj.g24 as"Финансирование в 4 квартале",
                                                  proj.g9 as "Должность руководителя",
                                                  proj.g10 as"Учёное звание руководителя",
                                                  proj.g11 as"Учёная степень руководителя"
@@ -281,6 +283,10 @@ def read_data_add_row():
 
         # ВЫДЕЛЕНИЕ СТРОКИ , КОГДА ДОБАВЛЯЕМ СТРОКУ
         table_model.setQuery(query)
+
+        while table_model.canFetchMore():
+            table_model.fetchMore()
+
         conn1 = sqlite3.connect(db_name)
         cur1 = conn1.cursor()
         cur1.execute('''select g1,codkon from gr_proj''')
@@ -357,14 +363,14 @@ def add_row():
 
     def add_combo_box_change():
         add_combobox_codkon = []
-        print(change_form.comboBox_cod_kon_change.currentText()[0:2])
-        print(result3)
+        #print(change_form.comboBox_cod_kon_change.currentText()[0:2])
+        #print(result3)
         for i in range(len(result3)):
             if result3[i][0:2] ==add_view_form.comboBox_cod_kon.currentText()[0:2]:
                 add_combobox_codkon.append(result3[i])
         add_view_form.comboBox_cod_nir.clear()
         add_view_form.comboBox_cod_nir.addItems(add_combobox_codkon)
-        print(add_combobox_codkon)
+        #print(add_combobox_codkon)
 
     add_view_form.comboBox_cod_kon.currentTextChanged.connect(add_combo_box_change)
 
@@ -387,6 +393,11 @@ def add_row():
 
 
 def return_back():
+
+    global query_sql_filter_save
+
+    cond_filter = 'WHERE' + ' ' + ' AND '.join(f"{field} == \"{value}\"" for field, value in zip(query_sql_filter_temp.keys(), query_sql_filter_temp.values()))
+
     table_model = QSqlTableModel()
     proj_view_window.show()
     query = QSqlQuery(f"""SELECT proj.codkon AS "Код конкурса",
@@ -397,10 +408,10 @@ def return_back():
                                              proj.g5 AS "Плановый объем",
                                              proj.g6 AS "Наименование НИР",
                                              proj.g2 AS "Фактический объем гранта",
-                                             proj.g21 as"Поквартальное финансирование",
-                                             proj.g22 as"Поквартальное финансирование",
-                                             proj.g23 as"Поквартальное финансирование",
-                                             proj.g24 as"Поквартальное финансирование",
+                                             proj.g21 as"Финансирование в 1 квартале",
+                                             proj.g22 as"Финансирование во 2 квартале",
+                                             proj.g23 as"Финансирование в 3 квартале",
+                                             proj.g24 as"Финансирование в 4 квартале",
                                              proj.g9 as "Должность руководителя",
                                              proj.g10 as"Учёное звание руководителя",
                                              proj.g11 as"Учёная степень руководителя"
@@ -409,6 +420,10 @@ def return_back():
                                       {cond_sort if query_sql_sort_save != {} else ""}""")
 
     table_model.setQuery(query)
+
+    while table_model.canFetchMore():
+        table_model.fetchMore()
+    proj_view_form.tableView.setFocus()
 
     proj_view_form.tableView.setModel(table_model)
     proj_view_form.tableView.setSortingEnabled(True)
@@ -448,6 +463,10 @@ def pb_yes():
     table_model.setQuery(query)
     query = QSqlQuery("SELECT * FROM gr_proj")
     table_model.setQuery(query)
+
+    while table_model.canFetchMore():
+        table_model.fetchMore()
+
     delete_proj_window.close()
     proj_view_window.show()
     query = QSqlQuery("""SELECT codkon AS "Код конкурса",
@@ -461,6 +480,11 @@ def pb_yes():
                                          FROM gr_proj""")
 
     table_model.setQuery(query)
+
+    while table_model.canFetchMore():
+        table_model.fetchMore()
+    proj_view_form.tableView.setFocus()
+
     proj_view_form.tableView.setModel(table_model)
     proj_view_form.tableView.resizeColumnsToContents()
 
@@ -499,6 +523,11 @@ def proj_select_check():
                              FROM gr_proj WHERE g1=={curr_index.sibling(curr_index.row(), 1).data()} and gr_proj.codkon=='{codkon}'""")
         change_form.tableView_change.resizeColumnsToContents()
         table_model.setQuery(query)
+
+        while table_model.canFetchMore():
+            table_model.fetchMore()
+        delete_proj_form.tableView_delete_row.setFocus()
+
         delete_proj_form.tableView_delete_row.setModel(table_model)
 
     else:
@@ -509,6 +538,8 @@ def proj_select_check():
 def read_data_add_row1():
 
     global query_sql_filter_save
+
+    cond_filter = 'WHERE' + ' ' + ' AND '.join(f"{field} == \"{value}\"" for field, value in zip(query_sql_filter_temp.keys(), query_sql_filter_temp.values()))
 
     curr_index1 = proj_view_form.tableView.currentIndex()
     index_change = curr_index1.row()
@@ -633,10 +664,6 @@ def read_data_add_row1():
             if i==4:
                 change_form.lineEdit_g11.setStyleSheet("color: black;")
 
-
-
-
-
     # Вывод на экран то что значения были введены неверно
     if j > 0:
         error_add_row_form.textBrowser.setText(add_error_text)
@@ -648,10 +675,10 @@ def read_data_add_row1():
                                          proj.g5 AS "Плановый объем",
                                          proj.g6 AS "Наименование НИР",
                                          proj.g2 AS "Фактический объем гранта",
-                                         proj.g21 as"Поквартальное финансирование",
-                                         proj.g22 as"Поквартальное финансирование",
-                                         proj.g23 as"Поквартальное финансирование",
-                                         proj.g24 as"Поквартальное финансирование",
+                                         proj.g21 as"Финансирование в 1 квартале",
+                                         proj.g22 as"Финансирование во 2 квартале",
+                                         proj.g23 as"Финансирование в 3 квартале",
+                                         proj.g24 as"Финансирование в 4 квартале",
                                          proj.g9 as "Должность руководителя",
                                          proj.g10 as"Учёное звание руководителя",
                                          proj.g11 as"Учёная степень руководителя"
@@ -660,6 +687,10 @@ def read_data_add_row1():
                                   {cond_sort if query_sql_sort_save != {} else ""}""")
 
         table_model.setQuery(query)
+
+        while table_model.canFetchMore():
+            table_model.fetchMore()
+        proj_view_form.tableView.setFocus()
 
         proj_view_form.tableView.setModel(table_model)
         proj_view_form.tableView.setSortingEnabled(True)
@@ -722,10 +753,10 @@ def read_data_add_row1():
                                          proj.g5 AS "Плановый объем",
                                          proj.g6 AS "Наименование НИР",
                                          proj.g2 AS "Фактический объем гранта",
-                                         proj.g21 as"Поквартальное финансирование",
-                                         proj.g22 as"Поквартальное финансирование",
-                                         proj.g23 as"Поквартальное финансирование",
-                                         proj.g24 as"Поквартальное финансирование",
+                                         proj.g21 as"Финансирование в 1 квартале",
+                                         proj.g22 as"Финансирование во 2 квартале",
+                                         proj.g23 as"Финансирование в 3 квартале",
+                                         proj.g24 as"Финансирование в 4 квартале",
                                          proj.g9 as "Должность руководителя",
                                          proj.g10 as"Учёное звание руководителя",
                                          proj.g11 as"Учёная степень руководителя"
@@ -738,8 +769,8 @@ def read_data_add_row1():
         while table_model.canFetchMore():
             table_model.fetchMore()
         proj_view_form.tableView.setFocus()
-        proj_view_form.tableView.selectRow(index_change)
 
+        proj_view_form.tableView.selectRow(index_change)
         proj_view_form.tableView.setModel(table_model)
         proj_view_form.tableView.setSortingEnabled(True)
         proj_view_form.tableView.resizeColumnsToContents()
@@ -830,12 +861,12 @@ def change():
 
     def add_combo_box_change():
         add_combobox_codkon=[]
-        print(change_form.comboBox_cod_kon_change.currentText()[0:2])
-        print(result3)
+        #print(change_form.comboBox_cod_kon_change.currentText()[0:2])
+        #print(result3)
         for i in range(len(result3)):
             if result3[i][0:2] == change_form.comboBox_cod_kon_change.currentText()[0:2]:
                 add_combobox_codkon.append(result3[i])
-        print(add_combobox_codkon)
+        #print(add_combobox_codkon)
         change_form.comboBox_cod_nir_change.clear()
         change_form.comboBox_cod_nir_change.addItems(add_combobox_codkon)
 
@@ -899,6 +930,12 @@ def change():
                              FROM gr_proj WHERE g1=={curr_index.sibling(curr_index.row(), 1).data()} and gr_proj.codkon=='{curr_index.sibling(curr_index.row(), 0).data()}'""")
 
         table_model.setQuery(query)
+
+        while table_model.canFetchMore():
+            table_model.fetchMore()
+
+        change_form.tableView_change.setFocus()
+
         change_form.tableView_change.setModel(table_model)
         change_form.tableView_change.resizeColumnsToContents()
         ind = curr_index.sibling(curr_index.row(), 1).data()
@@ -939,9 +976,6 @@ def open_proj_sort_window():
     window_list[check_active_window()].close()
     proj_sort_window.showMaximized()
 
-    filter_label = ', '.join(f"{translate_dict_filter[field]}: {value}" for field, value in zip(query_sql_filter_temp.keys(), query_sql_filter_temp.values()))
-    proj_sort_form.filterlabel.setText(filter_label if filter_label != '' else "Отсутствуют")
-
     table_model = QSqlTableModel()
 
     cond_sort = 'ORDER BY' + ' ' + ', '.join(f"{field} {value}" for field, value in zip(query_sql_sort_save.keys(), query_sql_sort_save.values()))
@@ -955,10 +989,10 @@ def open_proj_sort_window():
                                  proj.g5 AS "Плановый объем",
                                  proj.g6 AS "Наименование НИР",
                                  proj.g2 AS "Фактический объем гранта",
-                                 proj.g21 as"Поквартальное финансирование",
-                                 proj.g22 as"Поквартальное финансирование",
-                                 proj.g23 as"Поквартальное финансирование",
-                                 proj.g24 as"Поквартальное финансирование",
+                                 proj.g21 as"Финансирование в 1 квартале",
+                                 proj.g22 as"Финансирование во 2 квартале",
+                                 proj.g23 as"Финансирование в 3 квартале",
+                                 proj.g24 as"Финансирование в 4 квартале",
                                  proj.g9 as "Должность руководителя",
                                  proj.g10 as"Учёное звание руководителя",
                                  proj.g11 as"Учёная степень руководителя"
@@ -1009,10 +1043,10 @@ def proj_sort_save():
                                  proj.g5 AS "Плановый объем",
                                  proj.g6 AS "Наименование НИР",
                                  proj.g2 AS "Фактический объем гранта",
-                                 proj.g21 as"Поквартальное финансирование",
-                                 proj.g22 as"Поквартальное финансирование",
-                                 proj.g23 as"Поквартальное финансирование",
-                                 proj.g24 as"Поквартальное финансирование",
+                                 proj.g21 as"Финансирование в 1 квартале",
+                                 proj.g22 as"Финансирование во 2 квартале",
+                                 proj.g23 as"Финансирование в 3 квартале",
+                                 proj.g24 as"Финансирование в 4 квартале",
                                  proj.g9 as "Должность руководителя",
                                  proj.g10 as"Учёное звание руководителя",
                                  proj.g11 as"Учёная степень руководителя"
@@ -1054,10 +1088,10 @@ def proj_sort_reset():
                                      proj.g5 AS "Плановый объем",
                                      proj.g6 AS "Наименование НИР",
                                      proj.g2 AS "Фактический объем гранта",
-                                     proj.g21 as"Поквартальное финансирование",
-                                     proj.g22 as"Поквартальное финансирование",
-                                     proj.g23 as"Поквартальное финансирование",
-                                     proj.g24 as"Поквартальное финансирование",
+                                     proj.g21 as"Финансирование в 1 квартале",
+                                     proj.g22 as"Финансирование во 2 квартале",
+                                     proj.g23 as"Финансирование в 3 квартале",
+                                     proj.g24 as"Финансирование в 4 квартале",
                                      proj.g9 as "Должность руководителя",
                                      proj.g10 as"Учёное звание руководителя",
                                      proj.g11 as"Учёная степень руководителя"
@@ -1101,10 +1135,10 @@ def open_proj_filter_window():
                                          proj.g5 AS "Плановый объем",
                                          proj.g6 AS "Наименование НИР",
                                          proj.g2 AS "Фактический объем гранта",
-                                         proj.g21 as"Поквартальное финансирование",
-                                         proj.g22 as"Поквартальное финансирование",
-                                         proj.g23 as"Поквартальное финансирование",
-                                         proj.g24 as"Поквартальное финансирование",
+                                         proj.g21 as"Финансирование в 1 квартале",
+                                         proj.g22 as"Финансирование во 2 квартале",
+                                         proj.g23 as"Финансирование в 3 квартале",
+                                         proj.g24 as"Финансирование в 4 квартале",
                                          proj.g9 as "Должность руководителя",
                                          proj.g10 as"Учёное звание руководителя",
                                          proj.g11 as"Учёная степень руководителя"
@@ -1198,10 +1232,10 @@ def proj_filter_codkon():
                                             proj.g5 AS "Плановый объем",
                                             proj.g6 AS "Наименование НИР",
                                             proj.g2 AS "Фактический объем гранта",
-                                            proj.g21 as"Поквартальное финансирование",
-                                            proj.g22 as"Поквартальное финансирование",
-                                            proj.g23 as"Поквартальное финансирование",
-                                            proj.g24 as"Поквартальное финансирование",
+                                            proj.g21 as"Финансирование в 1 квартале",
+                                            proj.g22 as"Финансирование во 2 квартале",
+                                            proj.g23 as"Финансирование в 3 квартале",
+                                            proj.g24 as"Финансирование в 4 квартале",
                                             proj.g9 as "Должность руководителя",
                                             proj.g10 as"Учёное звание руководителя",
                                             proj.g11 as"Учёная степень руководителя"
@@ -1289,10 +1323,10 @@ def proj_filter_region():
                                             proj.g5 AS "Плановый объем",
                                             proj.g6 AS "Наименование НИР",
                                             proj.g2 AS "Фактический объем гранта",
-                                            proj.g21 as"Поквартальное финансирование",
-                                            proj.g22 as"Поквартальное финансирование",
-                                            proj.g23 as"Поквартальное финансирование",
-                                            proj.g24 as"Поквартальное финансирование",
+                                            proj.g21 as"Финансирование в 1 квартале",
+                                            proj.g22 as"Финансирование во 2 квартале",
+                                            proj.g23 as"Финансирование в 3 квартале",
+                                            proj.g24 as"Финансирование в 4 квартале",
                                             proj.g9 as "Должность руководителя",
                                             proj.g10 as"Учёное звание руководителя",
                                             proj.g11 as"Учёная степень руководителя"
@@ -1380,10 +1414,10 @@ def proj_filter_oblname():
                                             proj.g5 AS "Плановый объем",
                                             proj.g6 AS "Наименование НИР",
                                             proj.g2 AS "Фактический объем гранта",
-                                            proj.g21 as"Поквартальное финансирование",
-                                            proj.g22 as"Поквартальное финансирование",
-                                            proj.g23 as"Поквартальное финансирование",
-                                            proj.g24 as"Поквартальное финансирование",
+                                            proj.g21 as"Финансирование в 1 квартале",
+                                            proj.g22 as"Финансирование во 2 квартале",
+                                            proj.g23 as"Финансирование в 3 квартале",
+                                            proj.g24 as"Финансирование в 4 квартале",
                                             proj.g9 as "Должность руководителя",
                                             proj.g10 as"Учёное звание руководителя",
                                             proj.g11 as"Учёная степень руководителя"
@@ -1471,10 +1505,10 @@ def proj_filter_city():
                                             proj.g5 AS "Плановый объем",
                                             proj.g6 AS "Наименование НИР",
                                             proj.g2 AS "Фактический объем гранта",
-                                            proj.g21 as"Поквартальное финансирование",
-                                            proj.g22 as"Поквартальное финансирование",
-                                            proj.g23 as"Поквартальное финансирование",
-                                            proj.g24 as"Поквартальное финансирование",
+                                            proj.g21 as"Финансирование в 1 квартале",
+                                            proj.g22 as"Финансирование во 2 квартале",
+                                            proj.g23 as"Финансирование в 3 квартале",
+                                            proj.g24 as"Финансирование в 4 квартале",
                                             proj.g9 as "Должность руководителя",
                                             proj.g10 as"Учёное звание руководителя",
                                             proj.g11 as"Учёная степень руководителя"
@@ -1562,10 +1596,10 @@ def proj_filter_z2():
                                             proj.g5 AS "Плановый объем",
                                             proj.g6 AS "Наименование НИР",
                                             proj.g2 AS "Фактический объем гранта",
-                                            proj.g21 as"Поквартальное финансирование",
-                                            proj.g22 as"Поквартальное финансирование",
-                                            proj.g23 as"Поквартальное финансирование",
-                                            proj.g24 as"Поквартальное финансирование",
+                                            proj.g21 as"Финансирование в 1 квартале",
+                                            proj.g22 as"Финансирование во 2 квартале",
+                                            proj.g23 as"Финансирование в 3 квартале",
+                                            proj.g24 as"Финансирование в 4 квартале",
                                             proj.g9 as "Должность руководителя",
                                             proj.g10 as"Учёное звание руководителя",
                                             proj.g11 as"Учёная степень руководителя"
@@ -1659,10 +1693,10 @@ def proj_filter_reset():
                                             proj.g5 AS "Плановый объем",
                                             proj.g6 AS "Наименование НИР",
                                             proj.g2 AS "Фактический объем гранта",
-                                            proj.g21 as"Поквартальное финансирование",
-                                            proj.g22 as"Поквартальное финансирование",
-                                            proj.g23 as"Поквартальное финансирование",
-                                            proj.g24 as"Поквартальное финансирование",
+                                            proj.g21 as"Финансирование в 1 квартале",
+                                            proj.g22 as"Финансирование во 2 квартале",
+                                            proj.g23 as"Финансирование в 3 квартале",
+                                            proj.g24 as"Финансирование в 4 квартале",
                                             proj.g9 as "Должность руководителя",
                                             proj.g10 as"Учёное звание руководителя",
                                             proj.g11 as"Учёная степень руководителя"
@@ -1854,14 +1888,20 @@ def open_vuz_window():
 
 # сохраняем в таблицу по анализу вузов
 
-def open_save_doc(name_doc):
-    save_doc_form.label_add_doc.setText('Файл сохранен в документ: '+str(name_doc)+'.docx')
+def save_doc_window_close():
+    save_doc_window.close()
+
+def open_save_doc(name_doc,papka_doc):
+    save_doc_form.label_add_doc.setText('Файл сохранен в документ: '+str(papka_doc)+str(name_doc)+'.docx')
     save_doc_window.show()
+    save_doc_form.pushButton_save_doc_ok.clicked.connect(save_doc_window_close)
 
 
 def add_doc_analys(word_add_analys,filter_analys,name_doc):
     doc = docx.Document()
-
+    # дата создания
+    date_object = datetime.today()
+    doc.add_paragraph('Создан: ' + str(date_object)[:-7])
     # Add a Title to the document
     doc.add_heading(f'{name_doc}',0)
 
@@ -1875,7 +1915,7 @@ def add_doc_analys(word_add_analys,filter_analys,name_doc):
     row[0].text = 'Наименование ВУЗа'
     row[1].text = 'Количество НИР'
     row[2].text ='Плановый объем'
-    row[3].text ='Количество конкурсов ,в которых участвует ВУЗ'
+    row[3].text ='Количество конкурсов, в которых участвует ВУЗ'
 
     # Adding data from the list to the table
     for name, kol_nir , plan_v ,kol_con in word_add_analys:
@@ -1888,14 +1928,14 @@ def add_doc_analys(word_add_analys,filter_analys,name_doc):
         row[3].text= kol_con
     # добавление в конце надписи фильтр
 
-    date_object=datetime.today()
-    doc.add_paragraph('Создан: '+str(date_object)[:-7])
-
     doc.add_paragraph(str(filter_analys))
-
     # Now save the document to a location
-    doc.save(f'{name_doc}.docx')
-    open_save_doc(name_doc)
+    # папка создания
+    papka_main = sys.argv[0]
+    papka_doc = str(papka_main[:-7] + 'doc/')
+    print(papka_doc)
+    doc.save(str(papka_doc + f'{name_doc}.docx'))
+    open_save_doc(name_doc,papka_doc)
 
 
 
@@ -1941,7 +1981,7 @@ def open_analysis_vuz_window():
     if filter_analys == '':
         filter_analys = 'Условия фильтрации: Отсутсвуют'
     else:
-        filter_analys = 'Условия фильтрации:' + str(filter_label)
+        filter_analys = 'Условия фильтрации: ' + str(filter_label)
     word_add_analys=[]
     spis = []
     while query.next():
@@ -2072,7 +2112,7 @@ def open_analysis_subj_window():
     name_doc = 'Анализ по субьектам'
     filter_analys = filter_label
     if filter_analys == '':
-        filter_analys = 'Условия фильтрации: Отсутсвует'
+        filter_analys = 'Условия фильтрации: Отсутсвуют'
     else:
         filter_analys = 'Условия фильтрации:' + str(filter_label)
     word_add_analys = []
@@ -2164,7 +2204,7 @@ def open_fin_window():
 
     fin_form.planlabel.setText(str(sum_plan))
     fin_form.factlabel.setText(str(sum_fact))
-    fin_form.percentfactlabel.setText(str(round(sum_fact / sum_plan, 3)*100))
+    fin_form.percentfactlabel.setText(str(round(sum_fact / sum_plan * 100, 1)))
 
     fin_form.push_button_save_fin.setEnabled(False)
     fin_form.push_button_cancel_fin.setEnabled(False)
@@ -2173,6 +2213,12 @@ def open_fin_window():
 
 def doc_add_fin(word_add_analys,number_kvartala,name_doc):
     doc = docx.Document()
+
+
+    # дата создания
+    date_object=datetime.today()
+    doc.add_paragraph('Создан: '+str(date_object)[:-7])
+
 
     # Add a Title to the document
     doc.add_heading(f'{name_doc}', 0)
@@ -2195,13 +2241,13 @@ def doc_add_fin(word_add_analys,number_kvartala,name_doc):
         row[0].text = name
         row[1].text = kol_nir
 
-    date_object = datetime.today()
-    doc.add_paragraph('Создан: ' + str(date_object)[:-7])
-
 
     # Now save the document to a location
-    doc.save(f'{name_doc}.docx')
-    open_save_doc(name_doc)
+    papka_main = sys.argv[0]
+    papka_doc = str(papka_main[:-7] + 'doc/')
+    print(papka_doc)
+    doc.save(str(papka_doc + f'{name_doc}.docx'))
+    open_save_doc(name_doc, papka_doc)
 
 def calc_fin():
     # расчёт финансирования
@@ -2212,9 +2258,6 @@ def calc_fin():
 
         quarter_dict = {'I квартал': '1', 'II квартал': '2', 'III квартал': '3', 'IV квартал': '4'}
         quarter = quarter_dict[fin_form.quartcombo.currentText()]
-
-        fin_percent = str(round(ast.literal_eval(fin_form.percentfin.text()) / 100, 3) if isinstance(ast.literal_eval(fin_form.percentfin.text()), float) \
-            else ast.literal_eval(fin_form.percentfin.text()) / 100)
 
         query = QSqlQuery(f"""WITH temp_cte AS(
                                 SELECT vuz.z2 AS z2_cte,
@@ -2327,8 +2370,11 @@ def save_fin():
         sum_plan = query.value(1)
 
     fin_form.factlabel.setText(str(sum_fact))
-    fin_form.percentfactlabel.setText(str(round(sum_fact / sum_plan, 3)*100))
+    fin_form.percentfactlabel.setText(str(round(sum_fact / sum_plan * 100, 1)))
 
+    fin_form.push_button_calc_fin.setEnabled(False)
+    fin_form.push_button_save_fin.setEnabled(False)
+    fin_form.push_button_cancel_fin.setEnabled(True)
     fin_form.push_button_print_fin.setEnabled(True)
 
     calc_konk()
@@ -2379,9 +2425,10 @@ def cancel_fin():
             sum_plan = query.value(1)
 
         fin_form.factlabel.setText(str(sum_fact))
-        fin_form.percentfactlabel.setText(str(round(sum_fact / sum_plan, 3) * 100))
+        fin_form.percentfactlabel.setText(str(round(sum_fact / sum_plan * 100, 1)))
 
-        fin_form.push_button_save_fin.setEnabled(False)
+        fin_form.push_button_calc_fin.setEnabled(True)
+        fin_form.push_button_save_fin.setEnabled(True)
         fin_form.push_button_cancel_fin.setEnabled(False)
         fin_form.push_button_print_fin.setEnabled(False)
 
@@ -2437,6 +2484,10 @@ if not connect_db():
     sys.exit(-1)
 else:
     print('Подключение к базе данных прошло успешно')
+
+
+if not os.path.exists('./doc'):
+    os.makedirs('./doc')
 
 
 app = QApplication([])
@@ -2695,7 +2746,12 @@ help_prog_view_form.panel_help_prog.triggered.connect(open_help_prog_view_window
 help_prog_view_form.panel_exit_action.triggered.connect(close_prog)
 
 
+# привязка функции выхода к кнопке выхода
 app.aboutToQuit.connect(close_prog)
 
-open_konk_window()
+try:
+    open_konk_window()
+except Exception as e:
+    print('Error Description:',e)
+    sys.exit(-1)
 app.exec()
