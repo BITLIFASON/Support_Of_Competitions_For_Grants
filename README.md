@@ -376,7 +376,7 @@
 - [https://docs.python.org/3/library/sqlite3.html]( )
 - [https://python-docx.readthedocs.io/en/latest/index.html]( )
 
-
+---
 
 В данном проекте я отвечал за общую структуру приложения, фильтрацию, анализ и финансирование.
 
